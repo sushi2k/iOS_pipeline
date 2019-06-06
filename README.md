@@ -2,9 +2,11 @@
 
 This repo summaries best practices and tools that should be considered for an iOS Pipeline including security checks.
 
-You need to have a mature CI/CD pipeline
+Before introducing security tools, make sure that you have a mature CI/CD pipeline:
+- Build process is stable
+- Tools like Terraform are used to build a consistent and ideally immutable environment
 
-Hardware need to be purchased on-premise, maybe can also deploy in AWS (might only work for enterprise)
+macOS is not available as image for all big cloud providers. Either you go for a specialized cloud provider or you need to purchase hardware on-premise. 
 
 ## Management of iOS Development Certificates to sign apps
 
@@ -23,12 +25,11 @@ Insecure
 
 - <https://developer.apple.com/support/certificates/>
 
-
 ## Security Tools
 
 ### Source Code Scanning
 
-Not a good coverage in general cannot keep up to date with the latest version.
+Not a good coverage in general for mobile technology stacks and cannot keep up to date with the latest version.
 
 Coverity - https://scan.coverity.com/travis_ci
 Fortify
@@ -36,11 +37,7 @@ Veracode
 
 What could be covered in grep statements?
 
-
 Would it makes sense to make rules in FindSecBugs?
-Objective-C:
-Swift:
-
 Sonarqube https://docs.sonarqube.org/display/PLUG/SonarCFamily+for+Objective-C
 
 ### DAST
@@ -57,23 +54,19 @@ OWASP ZAP
 Testing via User Interface Testing 
 https://developer.apple.com/library/archive/documentation/DeveloperTools/Conceptual/testing_with_xcode/chapters/09-ui_testing.html
 
-Executing a script with XCTest in the simulator and proxy through OWASP ZAP to see if successfull or not. 
+Executing a script with XCTest in the simulator and proxy through OWASP ZAP to see if succesfull or not.
 
 ### 3rd party libraries (SCA/dependencies)
 
-Cocoapods/Carthage
-https://snyk.io/docs/
-
-JFrog Artifactory supports CocoPods
-Blackduck mostly likely supports CocoPods
-Sonatype Nexus Lifecycle - CocoaPods
-
-
+Cocoapods/Carthage:
+- JFrog Artifactory supports CocoPods
+- Blackduck mostly likely supports CocoPods
+- Sonatype Nexus Lifecycle - CocoaPods
 
 ### Automated Testing 
 
-MobSF?
-Needle?
+- MobSF
+- Needle (need jailbroken device)
 
 ### Credential and Secret Management
 
@@ -90,10 +83,7 @@ Released by AWS Labs, as you can guess by the name – it scans for the secrets.
 
 ```
 $ git secrets --scan-history
-149dc6a02b6bf2ab98992504d705ab9f2e6a6e0a:MSTG-JWT/ViewController.swift:19:    let aws_secret_access_key = /LLeaSVtLMc3L78X+BrbtMCg2uyDpw4Y+rGgYxOV
-bf2fcf3c28168c716c2b86a653c6637fbaf87ca0:MSTG-JWT/ViewController.swift:19:    let aws_secret_access_key = /LLeaSVtLMc3L78X+BrbtMCg2uyDpw4Y+rGgYxOV
-bf2fcf3c28168c716c2b86a653c6637fbaf87ca0:credentials:3:aws_secret_access_key = /LLeaSVtLMc3L78X+BrbtMCg2uyDpw4Y+rGgYxOV
-065fc806523353e8353865437e83e3904a0627e6:credentials:3:aws_secret_access_key = /LLeaSVtLMc3L78X+BrbtMCg2uyDpw4Y+rGgYxOV
+149dc6a02b6bf2ab98992504d705ab9f2e6a6e0a:MSTG-JWT/ViewController.swift:19:    let aws_secret_access_key = /LLeaSVtLMc3L78X+BrbtMCg2uyDpw4Y
 ```
 
 Works well for AWS Access Keys.
@@ -141,8 +131,7 @@ Threat Stack
 Slack
 - Token: 74+ “xoxp-{11 numeric}-{12-13 numeric}-{32 hex}”
 
-A good starting point are the following regexes from Trufflehog https://github.com/dxa4481/truffleHogRegexes/blob/master/truffleHogRegexes/regexes.json 
-
+A good starting point are the following regexes from Trufflehog https://github.com/dxa4481/truffleHogRegexes/blob/master/truffleHogRegexes/regexes.json
 
 ## Build Tools
 
